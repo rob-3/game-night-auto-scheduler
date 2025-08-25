@@ -6,11 +6,18 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let 
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+      ...
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
         pkgs = nixpkgs.legacyPackages.${system};
-      in 
+      in
       {
         packages.default = pkgs.stdenv.mkDerivation {
           pname = "game-night-auto-scheduler";
@@ -35,5 +42,6 @@
         devShells.default = pkgs.mkShell {
           packages = [ pkgs.babashka ];
         };
-      });
+      }
+    );
 }
